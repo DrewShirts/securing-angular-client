@@ -19,7 +19,15 @@ export class ServiceNameService {
             redirect_uri: `${Constants.clientRoot}signing-callback`,
             scope: 'openid profile projects-api',
             response_type: 'code',
-            post_logout_redirect_uri: `${Constants.clientRoot}signout-callback`
+            // post_logout_redirect_uri: `${Constants.clientRoot}signout-callback`,
+            metadata: {
+                issuer: `${Constants.stsAuthority}`,
+                authorization_endpoint: `${Constants.stsAuthority}authorize?audience=projects-api`,
+                jwks_uri: `${Constants.stsAuthority}.well-known/jwks.json`,
+                token_endpoint: `${Constants.stsAuthority}oauth/token`,
+                userinfo_endpoint: `${Constants.stsAuthority}userinfo`,
+                end_session_endpoint: `${Constants.stsAuthority}v2/logout?client_id=${Constants.clientId}&returnTo=${encodeURI(Constants.clientRoot)}signout-callback`
+            }
         };
         this._userManager = new UserManager(stsSettings);
     }
@@ -34,7 +42,7 @@ export class ServiceNameService {
             if (this._user !== user) {
                 this._loginChangedSubject.next(userCurrent);
             }
-            this.user = user;
+            this._user = user;
             return userCurrent;
         })
     }

@@ -16,7 +16,7 @@ export class ServiceNameService {
         const stsSettings = {
             authority: Constants.stsAuthority,
             client_id: Constants.clientId,
-            redirect-uri: `${Constants.clientRoot}signing-callback`,
+            redirect_uri: `${Constants.clientRoot}signing-callback`,
             scope: 'openid profile projects-api',
             response_type: 'code',
             post_logout_redirect_uri: `${Constants.clientRoot}signout-callback`

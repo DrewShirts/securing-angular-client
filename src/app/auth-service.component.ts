@@ -38,4 +38,12 @@ export class ServiceNameService {
             return userCurrent;
         })
     }
+
+    completeLogin() {
+        return this._userManager.signinRedirectCallback().then(user => {
+            this._user = user;
+            this._loginChangedSubject.next(!!user && !user.expired);
+            return user;
+        });
+    }
 }
